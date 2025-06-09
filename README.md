@@ -1,4 +1,4 @@
-# Deepwiki
+# Open Deepwiki
 
 Automated Wiki Generation for Codebases Using LLMs
 
