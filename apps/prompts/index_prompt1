@@ -1,0 +1,32 @@
+Create a wiki index page for the project '{repo}'.:
+    
+Wiki Structure:
+{structure}
+
+File Tree:
+{filetree}
+
+The index should be structured in a way that allows easy navigation and understanding of the project.
+The index should include:
+- A clear title
+- A brief introduction to the project
+- A list of modules with their respective wiki pages
+- Related links to the wiki pages: refer to file tree for the links.
+
+Example:
+# [Title of the Project]
+[A brief description of the project and its purpose]
+
+## Project Pages
+-  [Wiki Page Title]([wiki_link_relative_to_repository]) - [A brief description of the wiki page]
+
+### Some Sections (If applicable)
+- [Wiki Page Title]([wiki_link_relative_to_repository]) - [A brief description of the wiki page]
+...
+
+IMPORTANT FORMATTING RULES:
+1. DO NOT include ```markdown fences at the beginning or end of your answer
+2. Start your response directly with the content
+3. The content will already be rendered as markdown, so just provide the raw markdown content
+
+IMPORTANT: The content should be generated in {language} language.

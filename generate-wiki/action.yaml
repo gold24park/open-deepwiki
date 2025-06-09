@@ -1,0 +1,97 @@
+name: Generate Wiki
+
+description: |
+  Generate wiki pages from the codebase using deepwiki.
+
+inputs:
+  is_test:
+    description: "Set to '1' to run in test mode."
+    default: "0"
+  wiki_env:
+    description: "Wiki environment variables"
+    required: true
+  github_token:
+    description: |
+      Github Personal Access Token (PAT).
+      Requires read/write permissions for both Wiki Repository and Src Repository.
+    required: true
+  wiki_config:
+    description: "Wiki configuration file"
+  github_user_email:
+    description: "GitHub user email for commit"
+    default: "system@gna.company"
+  github_user_name:
+    description: "GitHub user name for commit"
+    default: "system-gna"
+
+outputs:
+  skipped:
+    description: "1 if wiki generation was skipped"
+    value: ${{ steps.run-script.outputs.skipped }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout deepwiki Repository
+      uses: actions/checkout@v2
+      with:
+        repository: GNA-COMPANY-INC/deepwiki
+        token: ${{ inputs.github_token }}
+    - name: Setup git config
+      shell: bash
+      run: |
+        git config --global user.email ${{ inputs.github_user_email }}
+        git config --global user.name ${{ inputs.github_user_name }}
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version-file: ".python-version"
+    - name: Install python dependencies
+      shell: bash
+      run: |
+        uv pip install -r requirements.txt --system
+    - name: Setup .env
+      shell: bash
+      run: |
+        cat > .env <<EOF
+        ${{ inputs.wiki_env }}
+        EOF
+    - if: inputs.is_test == '1'
+      shell: bash
+      run: |
+        echo "IS_TEST=1" >> .env
+        echo "Enabled test mode."
+    - name: Setup config
+      shell: bash
+      run: |
+        cat > wiki_config.yaml <<EOF
+        ${{ inputs.wiki_config }}
+        EOF
+    - name: Load cached index
+      uses: actions/cache@v3
+      id: load-index
+      with:
+        path: apps/indexes${{ github.repository }}
+        key: 1
+    - if: steps.load-index.outputs.cache-hit == 'true'
+      shell: bash
+      run: echo "Cache hit! Skipping index generation."
+    - name: Run Python Script
+      id: run-script
+      shell: bash
+      run: |
+        set +e
+        python -m apps.main ${{ github.repository }} --branch=${{ github.ref_name }} --pat=${{ inputs.github_token }}
+
+        EXIT_CODE=$?
+
+        # If exit code is 100, it means the wiki generation was skipped.
+        # Treat as success but add skipped=1 to github output.
+        if [ $EXIT_CODE -eq 100 ]; then
+          echo "skipped=1" >> $GITHUB_OUTPUT
+          exit 0;
+        elif [ $EXIT_CODE -ne 0 ]; then
+          exit $EXIT_CODE;
+        fi

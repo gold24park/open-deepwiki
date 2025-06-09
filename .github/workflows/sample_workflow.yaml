@@ -1,0 +1,73 @@
+name: Wiki 생성
+
+on:
+  # 특정 패턴의 브랜치에 push되면 실행됩니다.
+  # push:
+  #   branches:
+  #     - v*
+  # Actions 탭에서 수동으로 실행가능하다.
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  generate-wiki:
+    runs-on: self-hosted
+
+    steps:
+      - name: Generate wiki
+        id: generate-wiki
+        uses: gold24park/deepwiki/generate-wiki@v1
+        with:
+          is_test: 1
+          github_token: ${{ secrets.DEEPWIKI_GITHUB_PAT }}
+          wiki_env: ${{ secrets.DEEPWIKI_ENV }}
+          wiki_config: |
+            # ======================================
+            # [START] 위키 설정
+            # ======================================
+            skip: 31d
+            # 코드 인덱싱에서 무시할 파일 패턴을 정의합니다. (glob 패턴 사용)
+            ignore_patterns:
+              - "**/yoda"
+              - "migrations/gna_*"
+              - "migrations/versions/*.py"
+              - "samples"
+              - "dkc.old/"
+              - "test*.py"
+              - "example.py"
+
+            # Tutorial: 학습 중심 문서
+            # 새로운 기술이나 도구를 처음 접해서 어떤 흐름인지 알고 싶을떄 사용합니다.
+            # 초보자가 쉽게 시작할 수 있는 튜토리얼이나 사전 준비도 여기에 속합니다.
+            tutorial:
+              - "pio_api.py에 새로운 API를 등록하는 방법"
+              - "테스트 코드 작성 방법 : pio_XXX__test.py 또는 s_XXX__test.py 형태로 파일명 생성"
+              - "배포 / 실행 - entrypoint.sh 이해하기"
+
+            # How-to: 문제 해결 문서
+            # 배경지식이 있는 상태에서 기술이나 도구를 사용하다 생기는 특정한 문제를 해결하고 싶을때 사용합니다.
+            how_to:
+              - "@CTX.auth_required로 로그인 여부 체크하기"
+
+            # Reference: 참조 문서
+            # 이미 기본적인 작동 방법을 알고 있는 상태에서 특정 기능이나 API 사용법을 확인해서 적용하고 싶을 때 사용합니다.
+            reference:
+              - "NL 로거 사용방법"
+              - "@R.add 데코레이터의 동작"
+              - "v2 폴더의 module 파일 및 함수 이름 패턴 ex) party2__promotions -> /pio/v2/party2/promotions 가 경로가 됨"
+
+            # Explanation: 설명 문서
+            # 개념, 원리, 배경 지식을 깊이 이해하고 싶을 때 사용합니다. 예를들어, 왜 이런 기술이 등장했는지, 어떤 문제를 해결하는지 등을 자세히 알고 싶을 때 사용합니다.
+            explanation:
+              - "pgdt 사용법 : 날짜형을 다루기 위한 방법"
+              - "DB 핸들링을 위한 PIOEP 모듈"
+              - "CTX에 대해서"
+            # ======================================
+            # [ END ] 위키 설정 
+            # ======================================
+      - if: ${{ steps.generate-wiki.outputs.skipped == '1' }}
+        name: Skip wiki generation
+        run: echo "Wiki generation skipped."

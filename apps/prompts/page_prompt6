@@ -1,0 +1,98 @@
+<instruction>
+Create a Wiki Page content for "{title}" in the {repository} Repository using Markdown format.
+Branch: {branch}
+</instruction>
+
+<Page Information>
+Title: {title}
+Description: {description}
+Target Language: {language}
+Current Page Location: {path}
+Related Pages (use for linking): 
+{relevant_pages}
+
+Files and Directories to Reference (search for more if needed):
+{relevant_files}
+</Page Information>
+
+<Types of Technical Documentation and Writing Methods>
+Determine what type of document you are creating based on the Page location.
+Technical documentation can be divided into 4 types based on the reader's purpose:
+
+1. Learning-focused Documents (tutorials)
+Used when encountering a new technology or tool and wanting to understand its flow.
+This includes tutorials for beginners or prerequisite preparations.
+
+When writing learning-focused documents, include goals, prerequisites, step-by-step guides, and outcomes to help readers follow along easily.
+
+2. Problem-solving Documents (how-tos)
+Used when wanting to solve specific problems that arise while using technology or tools with existing background knowledge.
+When writing problem-solving documents, include problem definition, cause analysis, solution methods, and post-solution results to help readers understand and solve the problem.
+
+3. Reference Documents (references)
+Used when wanting to check and apply specific functions or API usage with existing knowledge of basic operations.
+These are documents for checking parameters, return values, and example code for specific API functions.
+
+Reference documents should include an overview of what the function or API is, when to use it, and what value it provides,
+organize properties and options in tables with types, default values, and descriptions, and provide explanations for return values or constants.
+It's helpful to provide specific examples of when to use them.
+
+4. Explanatory Documents (explanations)
+Used when wanting to deeply understand concepts, principles, and background knowledge. For example, when wanting to know in detail why a certain technology emerged or what problems it solves.
+
+When writing explanatory documents, introduce the concept and explain its background and use cases.
+</Types of Technical Documentation and Writing Methods>
+
+
+<Document Writing Guidelines>
+1. Keep sentences short and concise.
+2. Follow official technical terminology. For development tools, languages, and technical terms, follow the naming conventions in official documentation.
+3. Prioritize accuracy and completeness. All information in the document must be accurate and without omissions. There should be no technical errors or ambiguous explanations, and it should always be up-to-date.
+4. Provide examples to help reader understanding. Adding short code snippets around 20 lines is also a good method to aid understanding.
+5. Source links to relevant files: Example: <p>Sources: <a href="https://github.com/{repository}/blob/{branch}/api/rag.py" target="_blank" rel="noopener noreferrer" class="mb-1 mr-1 inline-flex items-stretch font-mono text-xs !no-underline">SOURCE_DISPLAY</a></p>5. Explicitly explain how this component/feature integrates with the overall architecture
+6. Actively use visual aids. Use code blocks, tables, mermaid diagrams, etc. appropriately to improve readability. Overall structure, data flow, or component structure can be more intuitively understood when shown visually.
+7. All documents must strictly follow markdown syntax. Don't start with ```markdown fence, respond directly with the markdown page content.
+</Document Writing Guidelines>
+
+<Diagram Creation Guidelines>
+1. CRITICAL: All diagrams MUST follow strict vertical orientation:
+   - Use "graph TD" (top-down) directive for flow diagrams
+   - NEVER use "graph LR" (left-right)
+   - Maximum node width should be 3-4 words
+   - Example:
+     \`\`\`mermaid
+     graph TD
+       A["Start Process"] --> B["Middle Step"]
+       B --> C["End Result"]
+     \`\`\`
+
+2. Flow Diagram Requirements:
+   - Use descriptive node IDs (e.g., UserAuth, DataProcess)
+   - ALL connections MUST use double dashes with arrows (-->)
+   - NEVER use single dash connections
+   - Add clear labels to connections when necessary: A -->|triggers| B
+   - Use appropriate node shapes based on type:
+     - Rectangle [Text] for components/modules
+     - Stadium ([Text]) for inputs/starting points
+     - Circle((Text)) for junction points
+     - Rhombus{{Text}} for decision points
+
+3. Sequence Diagram Requirements:
+   - Start with "sequenceDiagram" directive on its own line
+   - Define ALL participants at the beginning
+   - Use descriptive but concise participant names
+   - Use the correct arrow types:
+     - ->> for request/asynchronous messages
+     - -->> for response messages
+     - -x for failed messages
+   - Include activation boxes using +/- notation
+   - Add notes for clarification using "Note over" or "Note right of"
+
+4.	Text & Escape Rules:
+  - ALL text content MUST be enclosed in double quotes (") to ensure proper escaping
+  - Mermaid is sensitive to special characters and HTML entities — always use explicit quoting to avoid parsing errors
+  - This rule applies to ALL node labels, descriptions, and edge labels without exception
+  - Incorrect: A[Start Process]
+  - Correct: A["Start Process"]
+</Diagram Creation Guidelines>
+

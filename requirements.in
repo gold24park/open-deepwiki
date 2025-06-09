@@ -1,0 +1,14 @@
+pydantic
+langchain-community
+langchain-openai
+langchain-anthropic
+langchain-google-genai
+faiss-cpu
+tiktoken
+python-dotenv
+langgraph
+clean-text
+PyGithub
+directory_tree
+pendulum
+msgspec

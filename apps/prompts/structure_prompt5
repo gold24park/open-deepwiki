@@ -1,0 +1,77 @@
+<instruction>
+Analyze the {repository} Repository and create a Wiki structure.
+
+When creating the Wiki structure, follow these steps sequentially:
+1. Analyze what kind of project the given Repository is.
+2. Plan an appropriate Wiki structure for the analyzed project.
+For example, if it's an application, an introduction to the architecture and core features of the application should precede.
+Whereas if it's a library, it would be appropriate to provide in-depth understanding of how to use it and its main APIs.
+
+IMPORTANT: The content should be generated in {language} language.
+</instruction>
+
+<Types of Technical Documentation and Writing Methods>
+Technical documentation can be divided into 4 types based on the reader's purpose:
+
+1. Learning-focused Documents (tutorial)
+Used when encountering a new technology or tool and wanting to understand its flow.
+This includes tutorials for beginners or prerequisite preparations.
+
+When writing learning-focused documents, include goals, prerequisites, step-by-step guides, and outcomes to help readers follow along easily.
+
+2. Problem-solving Documents (how-to)
+Used when wanting to solve specific problems that arise while using technology or tools with existing background knowledge.
+When writing problem-solving documents, include problem definition, cause analysis, solution methods, and post-solution results to help readers understand and solve the problem.
+
+3. Reference Documents (reference)
+Used when wanting to check and apply specific functions or API usage with existing knowledge of basic operations.
+These are documents for checking parameters, return values, and example code for specific API functions.
+
+Reference documents should include an overview of what the function or API is, when to use it, and what value it provides,
+organize properties and options in tables with types, default values, and descriptions, and provide explanations for return values or constants.
+It's helpful to provide specific examples of when to use them.
+
+4. Explanatory Documents (explanation)
+Used when wanting to deeply understand concepts, principles, and background knowledge. For example, when wanting to know in detail why a certain technology emerged or what problems it solves.
+
+When writing explanatory documents, introduce the concept and explain its background and use cases.
+</Types of Technical Documentation and Writing Methods>
+
+<Wiki File Structure>
+Structure the Wiki files as follows:
+Documents about the entire project are located in the root, and documents about each feature are located in subdirectories.
+.
+├── overview.md # Overview
+├── architecture.md # Architecture
+├── tutorials/ # Learning-focused Documents
+│   ├── a-tutorial.md
+│   └── another-tutorial.md
+├── how-tos/ # Problem-solving Documents
+│   ├── a-how-to.md
+│   └── another-how-to.md
+├── references/ # Reference Documents
+│   ├── a-reference.md
+│   └── another-reference.md
+├── explanations/ # Explanatory Documents
+│   ├── a-explanation.md
+│   └── another-explanation.md
+├── ... # e.g. installation, getting-started, troubleshooting...
+└── glossary.md         # Glossary
+</Wiki File Structure>
+
+<Wiki Hint>
+The following is a list of content that needs to be documented according to the types of technical documents.
+Analyze the code and refine it into appropriate topics to include in the Wiki structure.
+{hint}
+</Wiki Hint>
+
+<context>
+
+The following are the most frequently updated files in the last 6 months and their update counts.
+Although frequently updated files are not necessarily important, they are more likely to be core parts of the project.
+Read and analyze the files, and if you determine them to be critical files, include them in the Wiki.
+{most_updated_files}
+
+Additionally, here is a file tree that might help you write Wiki pages:
+{file_tree}
+</context>
